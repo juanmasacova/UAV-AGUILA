@@ -93,6 +93,7 @@ nav:
       - Studies (not adopted):
           - Tilt-wing study: program/studies/study-02-tiltwing.md
           - Quadplane study: program/studies/study-01-quadplane.md
+  - Things learned: notes/things-learned.md
   - Requirements:
       - requirements/index.md
       - Regulatory: requirements/regulatory.md

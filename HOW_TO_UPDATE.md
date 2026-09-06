@@ -47,6 +47,7 @@ work, so it's worth ten seconds.
 | Ordered parts | `docs\procurement\index.md` | |
 | Confirmed a regulatory item | `docs\requirements\regulatory.md` | |
 | Took a photo | Drop it in `docs\assets\` | Reference it from the relevant page |
+| Learned something that changed your mind | Add an entry to `docs\notes\things-learned.md` | Follow the format of entry 01: what you assumed, what is true, why, what it changed |
 | Something you don't want public | Put it in `internal\` | That folder is never uploaded |
 
 ---

@@ -60,10 +60,27 @@ function A = aguilaAssumptions()
     A.cd0FourRotor = 0.050;    % parasite drag, 4 nacelles               [-]
 
     % --- Payload ---------------------------------------------------------
-    % 33 cl aluminium can, filled, plus an allowance for the release
-    % mechanism. CONFIRM THE CAN ON A SCALE - it is the single most
-    % influential number in the whole model (see the sensitivity study).
-    A.payload      = 0.430;    % can plus release mechanism              [kg]
+    % Split deliberately, because these two behave differently: the can
+    % LEAVES the aircraft at the drop, the mechanism STAYS. That difference
+    % is what drives the centre-of-gravity shift on release.
+    %
+    % Can mass, built up rather than taken from a single source:
+    %   empty 330 ml shell    13-20 g  (industry range; 14 g assumed)
+    %   empty 355 ml shell    ~15 g    (one measured example: 15.98 g)
+    %   sugared soda density  ~1.04 g/ml, diet and water ~1.00 g/ml
+    %
+    %   330 ml diet   330 + 14 = 344 g       330 ml soda   343 + 14 = 357 g
+    %   355 ml diet   355 + 15 = 370 g       355 ml soda   369 + 15 = 384 g
+    %
+    % 385 g is the worst case (US 12 fl oz, sugared) and therefore covers
+    % every common can with margin. Design to the worst case, not the
+    % average - the aircraft has to fly with whatever is loaded into it.
+    %
+    % STILL WORTH WEIGHING YOURSELF. It is the most influential single
+    % number in this model; see the sensitivity section.
+    A.canMass      = 0.385;    % the can, released at the drop           [kg]
+    A.mechMass     = 0.055;    % latch and servo, retained on board      [kg]
+    A.payload      = A.canMass + A.mechMass;   % total carried at takeoff [kg]
 
     % --- Manufacturing ---------------------------------------------------
     A.printSegment = 0.235;    % usable wing segment length on the A1    [m]

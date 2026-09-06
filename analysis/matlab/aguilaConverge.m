@@ -64,6 +64,8 @@ function R = aguilaConverge(cfg, A, M)
                                  + A.mEscFixed);
         mProps  = cfg.nRotors * A.kProp * E.propDiam_in^1.6;
         mFuse   = A.mFuseBase + A.kFusePayload * A.payload;
+        % Note: A.payload = A.canMass + A.mechMass. The can leaves at the
+        % drop; the mechanism stays. Both are carried at takeoff.
 
         if cfg.hasWing
             mWing  = A.kWing * S;
@@ -142,5 +144,7 @@ function R = aguilaConverge(cfg, A, M)
     R.mass_servos  = mServos;
     R.mass_battery = mBattery;
     R.mass_payload = A.payload;
+    R.mass_can     = A.canMass;
+    R.mass_mech    = A.mechMass;
     R.payloadFraction = A.payload / mass;
 end

@@ -1,16 +1,27 @@
 % =========================================================================
 % Juan MS CV
 % AGUILA - Sizing Study 01
-% Compare five candidate configurations and establish which requirement
-% thresholds are worth adopting, before any component is chosen.
+% How big should the wing be? Five candidates, compared on evidence.
 % =========================================================================
 %
 % WHAT THIS SCRIPT DECIDES:  nothing.
-% WHAT IT DOES:              shows what each candidate costs and buys, so
-%                            the decision can be made on evidence.
+% WHAT IT DOES:              shows what each candidate costs and buys, and
+%                            explains every number so the decision can be
+%                            made deliberately rather than by feel.
 %
-% Every coefficient it relies on lives in aguilaAssumptions.m. None of them
-% is a measurement. Section 6 shows which ones actually matter.
+% ALREADY DECIDED, and held fixed here:
+%   - Tilt-wing, straight unswept wing
+%   - Two rotors, one per side
+%   - Design mission radius extended so the wing is justified (section 2)
+%
+% STILL OPEN, and what this study informs:
+%   - Wing loading      -> how small the wing is
+%   - Aspect ratio      -> how that wing area is shaped
+%   - Thrust-to-weight  -> hover margin
+%   - Disk loading      -> rotor size
+%
+% Every coefficient lives in aguilaAssumptions.m. None is a measurement.
+% Section 6 shows which of them actually change the answer.
 %
 % Run:  >> AguilaSizingStudy01JMSCV
 % =========================================================================
@@ -19,17 +30,30 @@ clear all; clc;
 
 A = aguilaAssumptions();
 
-% Design mission: out 500 m, hover to drop, return and land.
-M.tHover  = 60.0;    % climb + 2 transitions + drop hover + descent   [s]
-M.radius  = 500.0;   % one-way distance to the drop point             [m]
-M.reserve = 0.50;    % energy held back on landing                    [-]
+% --- Design mission ------------------------------------------------------
+% Extended to 4 km after Study 00 showed the wing does not pay for itself
+% below roughly 3 km. Early flight testing will be done much closer in; that
+% is a test plan, not a design case. You size for the design case.
+M.tHover  = 60.0;     % climb + 2 transitions + drop hover + descent    [s]
+M.radius  = 4000.0;   % one-way distance to the drop point              [m]
+M.reserve = 0.50;     % energy still in the pack on landing             [-]
 
-fprintf('=====================================================================\n');
+M.testRadius = 500.0; % what you will actually fly at first             [m]
+
+fprintf('=========================================================================================\n');
 fprintf(' AGUILA SIZING STUDY 01\n');
-fprintf(' Mission: %.0f m out, hover drop, return. Hover allowance %.0f s.\n', ...
-        M.radius, M.tHover);
-fprintf(' Payload: %.0f g.  Energy reserve: %.0f %%.\n', A.payload*1000, M.reserve*100);
-fprintf('=====================================================================\n');
+fprintf('=========================================================================================\n');
+fprintf(' Design mission   %.1f km out, hover drop, return. Hover allowance %.0f s.\n', ...
+        M.radius/1000, M.tHover);
+fprintf(' Early testing    %.1f km out (does not drive the design)\n', M.testRadius/1000);
+fprintf(' Payload          %.0f g can + %.0f g release mechanism = %.0f g carried\n', ...
+        A.canMass*1000, A.mechMass*1000, A.payload*1000);
+fprintf(' Energy reserve   %.0f %% held back on landing\n', M.reserve*100);
+fprintf('\n');
+fprintf(' A NOTE ON READING THIS\n');
+fprintf('   Nothing below is a decision. Each section prints a table, then says\n');
+fprintf('   what the numbers mean and what choice they inform. Work through them\n');
+fprintf('   in order; section 6 tells you which numbers are trustworthy.\n');
 
 %% 1 -- Size the five candidates ------------------------------------------
 C = aguilaCandidates();
@@ -37,17 +61,18 @@ R = aguilaConverge(C(1), A, M);          % preallocate the struct array
 for i = 2:numel(C)
     R(i) = aguilaConverge(C(i), A, M);
 end
-aguilaReport(C, R);
+aguilaReport(C, R, A, M);
 
-%% 2 -- Is the wing earning its mass? -------------------------------------
-% Control case: the same mission flown by a pure multirotor, with no wing,
-% no pivot, no tilt mechanism and no transition. If that comes out lighter,
-% the wing is costing more than it saves at this mission length.
+%% 2 -- Is the wing earning its mass at this range? -----------------------
+% Control case: the same mission flown by a pure multirotor - no wing, no
+% pivot, no tilt mechanism, no transition, and no risk of a transition
+% upset. If that comes out lighter, the wing is not paying for itself.
 
+fprintf('=========================================================================================\n');
 fprintf(' 2. IS THE WING EARNING ITS MASS?\n');
-fprintf('-----------------------------------------------------------------------------------------------------\n');
-fprintf('%10s %14s %20s %14s\n', 'radius [m]', 'winged [kg]', 'pure multirotor [kg]', 'wing costs');
-radii = [250 500 1000 2000 4000 8000 16000];
+fprintf('=========================================================================================\n');
+fprintf(' %12s %16s %22s %16s\n', 'radius [m]', 'with wing [kg]', 'pure multirotor [kg]', 'verdict');
+radii = [500 1000 2000 3000 4000 6000 8000 12000];
 for r = radii
     Mr = M; Mr.radius = r;
     cfgW = C(2);
@@ -55,14 +80,18 @@ for r = radii
     Rw = aguilaConverge(cfgW, A, Mr);
     Rm = aguilaConverge(cfgM, A, Mr);
     if isfinite(Rm.mass)
-        fprintf('%10d %14.2f %20.2f %+13.2f\n', r, Rw.mass, Rm.mass, Rw.mass - Rm.mass);
+        if Rw.mass < Rm.mass
+            verdict = sprintf('wing saves %.2f kg', Rm.mass - Rw.mass);
+        else
+            verdict = sprintf('wing costs %.2f kg', Rw.mass - Rm.mass);
+        end
+        fprintf(' %12d %16.2f %22.2f %16s\n', r, Rw.mass, Rm.mass, verdict);
     else
-        fprintf('%10d %14.2f %20s %13s\n', r, Rw.mass, 'does not close', 'wing wins');
+        fprintf(' %12d %16.2f %22s %16s\n', r, Rw.mass, 'cannot close', 'wing essential');
     end
 end
 
-% Bisect for the break-even radius.
-lo = 500; hi = 40000;
+lo = 200; hi = 20000;
 for k = 1:40
     mid = (lo + hi) / 2;
     Mr = M; Mr.radius = mid;
@@ -75,71 +104,171 @@ for k = 1:40
         lo = mid;
     end
 end
-fprintf('\n  Break-even radius: %.1f km. The design mission is %.1f km.\n', ...
-        hi/1000, M.radius/1000);
+aguilaExplain('what this means', { ...
+  sprintf('Break-even radius: %.1f km. Below that a plain multirotor does the', hi/1000), ...
+  'job for less mass, because the wing, pivot, tilt actuator and tail cost', ...
+  'more than the cruise efficiency saves.', ...
+  '', ...
+  sprintf('Your design mission is %.1f km, comfortably past break-even. The wing', M.radius/1000), ...
+  'is now justified by the mission rather than only by interest.', ...
+  '', ...
+  '"Cannot close" means the mass loop runs away: the multirotor needs a', ...
+  'battery so heavy it can no longer lift itself. That is a real physical', ...
+  'result, not a numerical failure.'});
 
 %% 3 -- Where does the energy actually go? --------------------------------
-fprintf('\n 3. WHERE THE ENERGY GOES  (candidate B)\n');
-fprintf('-----------------------------------------------------------------------------------------------------\n');
+fprintf('\n=========================================================================================\n');
+fprintf(' 3. WHERE THE ENERGY GOES  (candidate B, at the design radius)\n');
+fprintf('=========================================================================================\n');
 eHover  = R(2).pHover * M.tHover / 3600;
 eCruise = R(2).energyWh - eHover;
-fprintf('  hover  %4.0f s at %3.0f W  = %5.2f Wh  (%3.0f %%)\n', ...
-        M.tHover, R(2).pHover, eHover, 100*eHover/R(2).energyWh);
-fprintf('  cruise %4.0f m at %3.0f W  = %5.2f Wh  (%3.0f %%)\n', ...
-        2*M.radius, R(2).pCruise, eCruise, 100*eCruise/R(2).energyWh);
-fprintf('  battery needed, with reserve: %.0f g = %.0f %% of MTOW\n', ...
+fprintf(' %-34s %8.2f Wh  (%3.0f %%)\n', ...
+        sprintf('hover, %.0f s at %.0f W', M.tHover, R(2).pHover), ...
+        eHover, 100*eHover/R(2).energyWh);
+fprintf(' %-34s %8.2f Wh  (%3.0f %%)\n', ...
+        sprintf('cruise, %.0f km at %.0f W', 2*M.radius/1000, R(2).pCruise), ...
+        eCruise, 100*eCruise/R(2).energyWh);
+fprintf(' %-34s %8.2f Wh\n', 'total for the mission', R(2).energyWh);
+fprintf(' %-34s %8.0f g  (%.0f %% of MTOW)\n', 'minimum battery, with reserve', ...
         R(2).mass_battery*1000, 100*R(2).mass_battery/R(2).mass);
+aguilaExplain('what this means', { ...
+  'At the short mission this project started with, hover dominated and the', ...
+  'wing was decoration. At 4 km, cruise dominates - which is exactly the', ...
+  'condition under which a wing is worth building.', ...
+  '', ...
+  'The battery is still a small share of takeoff weight. Energy is not what', ...
+  'constrains this aircraft; thrust, structure and size are.'});
 
-%% 4 -- Sweep: what does thrust-to-weight cost? ---------------------------
-fprintf('\n 4. SWEEP - THRUST-TO-WEIGHT  (candidate B geometry)\n');
-fprintf('-----------------------------------------------------------------------------------------------------\n');
-fprintf('%8s %10s %10s %12s %10s\n', 'T/W', 'MTOW [kg]', 'span [mm]', 'T/motor [kg]', 'hover [W]');
+%% 4 -- Sweep: what does hover margin cost? -------------------------------
+fprintf('\n=========================================================================================\n');
+fprintf(' 4. SWEEP - THRUST-TO-WEIGHT  (candidate B geometry)\n');
+fprintf('=========================================================================================\n');
+fprintf(' %8s %11s %11s %14s %11s\n', 'T/W', 'MTOW [kg]', 'span [mm]', 'thrust/mot [kg]', 'hover [W]');
 twList = [1.4 1.6 1.8 2.0 2.2 2.5];
-twMass = zeros(size(twList));
 for i = 1:numel(twList)
     cfg = C(2); cfg.thrustToWeight = twList(i);
     Rt = aguilaConverge(cfg, A, M);
-    twMass(i) = Rt.mass;
-    fprintf('%8.1f %10.2f %10.0f %12.2f %10.0f\n', ...
+    fprintf(' %8.1f %11.2f %11.0f %14.2f %11.0f\n', ...
             twList(i), Rt.mass, Rt.span*1000, Rt.thrustPerMotor, Rt.pHover);
 end
+aguilaExplain('what thrust-to-weight is', { ...
+  'The ratio of maximum hover thrust to aircraft weight. At 1.0 it can just', ...
+  'barely hold itself up and has nothing left to manoeuvre with. At 2.0 it', ...
+  'can accelerate upward at 1g and still has authority in wind.', ...
+  '', ...
+  'For a VTOL with only two rotors, this also sets how much authority the', ...
+  'controller has to correct an upset. Two rotors have no redundancy, so', ...
+  'margin here is safety, not performance.'});
+aguilaExplain('how to use this', { ...
+  'Look at what the whole range costs: about 0.2 kg of MTOW and 70 mm of', ...
+  'span from 1.4 all the way to 2.5. That is remarkably cheap.', ...
+  '', ...
+  'The reason it is cheap: bigger motors weigh more, but the aircraft they', ...
+  'are attached to barely grows, because the battery is small. So there is', ...
+  'little reason to be stingy here.', ...
+  '', ...
+  'Watch the thrust/mot column instead - that is what limits you. Pick the', ...
+  'highest T/W whose per-motor thrust you can still buy comfortably.', ...
+  '', ...
+  'THIS SETS REQUIREMENT DR-10.'});
 
 %% 5 -- Sweep: what does rotor size cost? ---------------------------------
-fprintf('\n 5. SWEEP - DISK LOADING  (candidate B, T/W %.1f)\n', C(2).thrustToWeight);
-fprintf('-----------------------------------------------------------------------------------------------------\n');
-fprintf('%14s %10s %10s %12s %10s\n', 'disk [N/m^2]', 'prop [in]', 'MTOW [kg]', 'hover [W]', 'blown [%]');
+fprintf('\n=========================================================================================\n');
+fprintf(' 5. SWEEP - DISK LOADING  (candidate B, T/W %.1f)\n', C(2).thrustToWeight);
+fprintf('=========================================================================================\n');
+fprintf(' %14s %11s %11s %12s %11s\n', ...
+        'disk [N/m^2]', 'prop [in]', 'MTOW [kg]', 'hover [W]', 'blown [%]');
 dlList = [100 130 160 200 250 320];
 for dl = dlList
     cfg = C(2); cfg.diskLoading = dl;
     Rd = aguilaConverge(cfg, A, M);
-    fprintf('%14.0f %10.1f %10.2f %12.0f %9.0f%%\n', ...
+    fprintf(' %14.0f %11.1f %11.2f %12.0f %10.0f%%\n', ...
             dl, Rd.propDiam_in, Rd.mass, Rd.pHover, Rd.washedSpanFraction*100);
 end
+aguilaExplain('what disk loading is', { ...
+  'Thrust divided by the total area swept by the propellers. Low disk', ...
+  'loading means big slow propellers moving a lot of air gently; high disk', ...
+  'loading means small fast propellers moving a little air hard.', ...
+  '', ...
+  'A helicopter has low disk loading. A jet has very high disk loading.', ...
+  'Moving more air more slowly is always more efficient in hover.'});
+aguilaExplain('how to use this', { ...
+  'Notice MTOW barely moves across the whole sweep. Rotor size is NOT a', ...
+  'weight decision. It is a decision about two other things:', ...
+  '', ...
+  '  hover power  Big props hover on far less power. Halving disk loading', ...
+  '               saves roughly 30% of hover power.', ...
+  '  blown span   Big props on a two-rotor aircraft cover more of the wing', ...
+  '               in slipstream, which is what keeps the wing attached', ...
+  '               during the tilt transition.', ...
+  '', ...
+  'Both push toward BIGGER propellers. What pushes back is geometry: the', ...
+  'props must clear the fuselage and each other, and the aircraft still has', ...
+  'to take off inside a 1.5 m footprint.', ...
+  '', ...
+  'There is one catch worth knowing. Bigger rotors have lower slipstream', ...
+  'VELOCITY even though they cover more span - so the protection they give', ...
+  'the wing in transition is gentler per unit area. The blown column here', ...
+  'only shows coverage, not intensity. Study 02 handles that properly.'});
 
 %% 6 -- Sensitivity: which assumptions actually matter? -------------------
-% A conclusion that survives a +/-30 % error in an assumption is safe to act
-% on. One that does not is a conclusion about the assumption, not about the
-% aircraft.
-
-fprintf('\n 6. SENSITIVITY  (+/- 30 %% on each assumption, candidate B)\n');
-fprintf('-----------------------------------------------------------------------------------------------------\n');
-fprintf('%-32s %12s %12s %12s\n', 'assumption', '-30%', '+30%', 'swing');
+fprintf('\n=========================================================================================\n');
+fprintf(' 6. SENSITIVITY  -  WHICH OF THESE NUMBERS CAN YOU TRUST?\n');
+fprintf('=========================================================================================\n');
+fprintf(' %-30s %12s %12s %12s\n', 'assumption varied +/- 30%', '-30%', '+30%', 'swing');
 baseMass = R(2).mass;
-fields = {'kWing', 'kPivotMoment', 'kMotor', 'eBattery', 'payload', 'figureOfMerit'};
-labels = {'wing areal density', 'pivot mass scaling', 'motor mass per kg thrust', ...
-          'battery specific energy', 'payload mass', 'rotor figure of merit'};
+fields = {'canMass', 'kWing', 'kMotor', 'mechMass', 'eBattery', 'cd0TwoRotor', 'figureOfMerit'};
+labels = {'can mass', 'wing areal density', 'motor mass per kg thrust', ...
+          'release mechanism mass', 'battery specific energy', ...
+          'parasite drag', 'rotor figure of merit'};
 for i = 1:numel(fields)
     lowA  = A; lowA.(fields{i})  = A.(fields{i}) * 0.7;
     highA = A; highA.(fields{i}) = A.(fields{i}) * 1.3;
+    lowA.payload  = lowA.canMass  + lowA.mechMass;
+    highA.payload = highA.canMass + highA.mechMass;
     Rlow  = aguilaConverge(C(2), lowA,  M);
     Rhigh = aguilaConverge(C(2), highA, M);
-    mLow  = Rlow.mass;
-    mHigh = Rhigh.mass;
-    fprintf('%-32s %10.2f kg %10.2f kg %10.0f %%\n', ...
-            labels{i}, mLow, mHigh, 100*abs(mHigh-mLow)/baseMass);
+    fprintf(' %-30s %9.2f kg %9.2f kg %10.0f %%\n', ...
+            labels{i}, Rlow.mass, Rhigh.mass, ...
+            100*abs(Rhigh.mass-Rlow.mass)/baseMass);
 end
+aguilaExplain('how to read this', { ...
+  'Each row asks: if I got this assumption wrong by 30%, how much does the', ...
+  'final aircraft mass change?', ...
+  '', ...
+  'A BIG swing means the conclusion depends on that assumption. Go and', ...
+  'measure it before trusting anything downstream.', ...
+  '', ...
+  'A SMALL swing means the assumption does not matter. You can leave it as', ...
+  'a rough guess and move on. This is where guessing is legitimate.'});
+aguilaExplain('what to do about it', { ...
+  'The largest row is the can. It is also the easiest thing in this entire', ...
+  'project to measure: put one on a kitchen scale.', ...
+  '', ...
+  'Do that first, put the real number in aguilaAssumptions.m, and re-run.', ...
+  'Everything downstream tightens at once.', ...
+  '', ...
+  'The rows near the bottom are assumptions you can safely ignore for now.'});
 
-fprintf('\n=====================================================================\n');
-fprintf(' Study complete. Nothing above is a decision.\n');
-fprintf(' Read section 6 first: it tells you which of these numbers to trust.\n');
-fprintf('=====================================================================\n\n');
+%% 7 -- What this study leaves open ---------------------------------------
+fprintf('\n=========================================================================================\n');
+fprintf(' 7. WHAT YOU CAN DECIDE FROM THIS, AND WHAT YOU CANNOT\n');
+fprintf('=========================================================================================\n');
+fprintf('\n   YOU CAN NOW DECIDE\n');
+fprintf('     DR-11  maximum wing loading   - section 1, bounded by stall speed\n');
+fprintf('     DR-13  target takeoff mass    - section 1, once wing loading is set\n');
+fprintf('     DR-10  minimum thrust/weight  - section 4, bounded by motor availability\n');
+fprintf('            aspect ratio           - section 1, span against efficiency\n');
+fprintf('\n   YOU CANNOT YET DECIDE\n');
+fprintf('     airfoil        needs the Reynolds number, which needs the chord above\n');
+fprintf('     rotor size     section 5 gives the trend, but transition intensity\n');
+fprintf('                    and prop clearance decide it - Study 02\n');
+fprintf('     motors         needs thrust/mot fixed first, then a thrust stand\n');
+fprintf('     yaw authority  needs the geometry above, then measurement\n');
+fprintf('\n   THE ONE THING TO DO BEFORE ANYTHING ELSE\n');
+fprintf('     Weigh a full can. It is the biggest source of uncertainty here and\n');
+fprintf('     the cheapest to eliminate.\n');
+
+fprintf('\n=========================================================================================\n');
+fprintf(' End of study. Nothing above has been decided for you.\n');
+fprintf('=========================================================================================\n\n');
