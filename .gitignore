@@ -1,0 +1,24 @@
+# MkDocs build output
+site/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# CAD working files (keep exports, not autosaves)
+*.f3d.lock
+*.bak
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# OneDrive
+*.tmp
+
+# Private working notes - not published, not committed
+internal/

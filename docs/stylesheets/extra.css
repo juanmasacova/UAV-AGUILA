@@ -1,0 +1,230 @@
+:root {
+  --md-text-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+}
+
+/* Tables: technical documents live in them, so give them room to breathe. */
+.md-typeset table:not([class]) {
+  font-size: .74rem;
+  line-height: 1.5;
+}
+.md-typeset table:not([class]) th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Requirement IDs read as identifiers, not prose. */
+.md-typeset table:not([class]) td:first-child code,
+.md-typeset .req-id {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Status chips for the program pages. */
+.chip {
+  display: inline-block;
+  padding: .12rem .5rem;
+  border-radius: 1rem;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.chip.done   { background: #e6f4ea; color: #1e6b34; border-color: #b7dfc4; }
+.chip.active { background: #e7f0fb; color: #17457f; border-color: #b9d2f0; }
+.chip.todo   { background: #f1f1f2; color: #5b5f66; border-color: #d9dade; }
+.chip.risk   { background: #fdeceb; color: #97281f; border-color: #f4c3bf; }
+
+[data-md-color-scheme="slate"] .chip.done   { background: #143421; color: #8fd8a8; border-color: #235437; }
+[data-md-color-scheme="slate"] .chip.active { background: #10243d; color: #9ec5f0; border-color: #1d3d63; }
+[data-md-color-scheme="slate"] .chip.todo   { background: #23262b; color: #9aa0a8; border-color: #34383f; }
+[data-md-color-scheme="slate"] .chip.risk   { background: #3a1614; color: #f0a49d; border-color: #5c2521; }
+
+/* Key-number cards for the landing page. */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: .8rem;
+  margin: 1.4rem 0;
+}
+.stat {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .35rem;
+  padding: .8rem .9rem;
+}
+.stat .v {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+.stat .k {
+  display: block;
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--md-default-fg-color--light);
+  margin-top: .25rem;
+}
+
+/* Generated-table provenance note. */
+.generated-note {
+  font-size: .68rem;
+  color: var(--md-default-fg-color--light);
+  border-left: 2px solid var(--md-default-fg-color--lightest);
+  padding-left: .6rem;
+  margin: -.4rem 0 1.2rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Progress bar — the design-stage stepper on the home page.
+   Driven entirely by MILESTONES in analysis/aguila.py.
+
+   Selectors are deliberately over-specified (.md-typeset prefix, child
+   combinators) because Material's own `.md-typeset ol` / `li` rules would
+   otherwise win on specificity and stack the stepper vertically.
+   --------------------------------------------------------------------------- */
+.md-typeset .progress {
+  margin: 1.8rem 0 2.6rem;
+}
+.md-typeset .progress .progress-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: .8rem;
+}
+.md-typeset .progress .progress-count {
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: var(--md-default-fg-color--light);
+}
+.md-typeset .progress .progress-pct {
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--md-primary-fg-color);
+  line-height: 1;
+}
+
+.md-typeset .progress .progress-track {
+  position: relative;
+}
+.md-typeset .progress .progress-track::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: var(--rail-inset, 5.55%);
+  right: var(--rail-inset, 5.55%);
+  height: 3px;
+  border-radius: 3px;
+  background: var(--md-default-fg-color--lightest);
+}
+.md-typeset .progress .progress-fill {
+  position: absolute;
+  top: 8px;
+  left: var(--rail-inset, 5.55%);
+  height: 3px;
+  border-radius: 3px;
+  background: var(--md-primary-fg-color);
+  transition: width .5s ease;
+}
+
+.md-typeset .progress .progress-steps {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.md-typeset .progress .progress-steps > .step {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0;
+  padding: 0 .2rem;
+  min-width: 0;
+  list-style: none;
+}
+.md-typeset .progress .progress-steps > .step::before,
+.md-typeset .progress .progress-steps > .step::marker {
+  content: none;
+}
+.md-typeset .progress .progress-steps > .step > .dot {
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--md-default-bg-color);
+  border: 3px solid var(--md-default-fg-color--lightest);
+  box-sizing: border-box;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.md-typeset .progress .progress-steps > .step.done > .dot {
+  background: var(--md-primary-fg-color);
+  border-color: var(--md-primary-fg-color);
+}
+.md-typeset .progress .progress-steps > .step.done > .dot::after {
+  content: "";
+  display: block;
+  width: 4px;
+  height: 7.5px;
+  margin-top: -2px;
+  border: solid var(--md-primary-bg-color);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.md-typeset .progress .progress-steps > .step > .step-label {
+  margin-top: .55rem;
+  font-size: .63rem;
+  line-height: 1.35;
+  letter-spacing: .01em;
+  color: var(--md-default-fg-color--light);
+  white-space: nowrap;
+}
+.md-typeset .progress .progress-steps > .step.done > .step-label {
+  color: var(--md-default-fg-color);
+  font-weight: 600;
+}
+
+/* Narrow screens: turn the stepper vertical rather than crushing the labels. */
+@media screen and (max-width: 700px) {
+  .md-typeset .progress .progress-track::before,
+  .md-typeset .progress .progress-fill { display: none; }
+
+  .md-typeset .progress .progress-steps {
+    flex-direction: column;
+    align-items: stretch;
+    border-left: 3px solid var(--md-default-fg-color--lightest);
+    margin-left: 8px;
+    padding-left: 0;
+  }
+  .md-typeset .progress .progress-steps > .step {
+    flex-direction: row;
+    align-items: center;
+    gap: .7rem;
+    text-align: left;
+    padding: .35rem 0;
+  }
+  .md-typeset .progress .progress-steps > .step > .dot { margin-left: -11px; }
+  .md-typeset .progress .progress-steps > .step > .step-label {
+    margin-top: 0;
+    font-size: .74rem;
+    white-space: normal;
+  }
+}
+
+/* "not yet determined" marker */
+.md-typeset .tbd,
+.tbd {
+  color: var(--md-default-fg-color--light);
+  font-style: italic;
+  font-size: .92em;
+  opacity: .8;
+}
