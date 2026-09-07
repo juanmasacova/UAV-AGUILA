@@ -134,6 +134,26 @@ This aircraft has two propellers that do both jobs. That is the price of the con
 it is why the pitch window above is so tight. It is also why variable-pitch and folding
 propellers exist, though both are far too complex for a first build.
 
+## The model, checked against measured data
+
+The efficiency model here was calibrated on a single anchor point — a 9450 propeller on a
+2312-class motor. One anchor is thin, so it was checked against T-Motor's published test data
+for an MN3110 turning a **10-inch propeller**, a different manufacturer and a different motor:
+
+| Measured thrust | Measured power | Model prediction | Error |
+|---:|---:|---:|---:|
+| 530 g | 71.0 W | 68 W | −4 % |
+| 660 g | 100.6 W | 95 W | −6 % |
+| 850 g | 136.2 W | 138 W | **+2 %** |
+| 980 g | 162.8 W | 171 W | +5 % |
+
+Agreement to within a few percent across the range that matters. The measured efficiency at
+850 g is **6.24 g/W** against a predicted 6.1 g/W.
+
+That same data also confirms the diameter finding empirically. From T-Motor's own tables, the
+same motor at similar thrust: **6.0–6.6 g/W on a 10-inch propeller, 8.7–14.1 g/W on a
+15-inch**. Bigger disk, less power — measured, not modelled.
+
 ## A correction to Study 01
 
 Building this model required calibrating hover efficiency against published motor test data.

@@ -11,5 +11,7 @@
 | Manufacture | Every structural part printable on a Bambu Lab A1, 256 mm cube |
 | Sourcing | Components orderable from Amazon US, or already owned |
 | Propeller | 10 inch, two blades - see the propulsion study |
+| Motor | iFlight Helion 10 / XING2 3110, 900 Kv, 77 g - 2 off |
+| Battery chemistry | 6S LiPo - packs already owned |
 | Fpv | No onboard video in Block 1 |
 | Donor policy | The existing 5-inch FPV quad is not disassembled |

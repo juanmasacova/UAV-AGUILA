@@ -46,6 +46,8 @@ DECIDED = {
     "manufacture": "Every structural part printable on a Bambu Lab A1, 256 mm cube",
     "sourcing": "Components orderable from Amazon US, or already owned",
     "propeller": "10 inch, two blades - see the propulsion study",
+    "motor": "iFlight Helion 10 / XING2 3110, 900 Kv, 77 g - 2 off",
+    "battery_chemistry": "6S LiPo - packs already owned",
     "fpv": "No onboard video in Block 1",
     "donor_policy": "The existing 5-inch FPV quad is not disassembled",
 }
@@ -83,7 +85,7 @@ PARAMS = {
     "figure_of_merit": None,
     "eta_prop":        None,
     "eta_elec":        None,
-    "batt_cells":      None,
+    "batt_cells":      6,      # DECIDED: 6S, packs already owned
     "batt_mAh":        None,
     "batt_dod":        None,
 
@@ -379,7 +381,12 @@ def range_km(hover_s=50):
 #: Add an entry only when you have a real basis for it - a measured part, a
 #: catalogue mass for a component you have actually selected, or an analysis
 #: you have run. An empty mass budget is an honest mass budget.
-MASS_ITEMS = {}
+MASS_ITEMS = {
+    # First real component mass in the budget. Manufacturer figure, 77 g each
+    # including wire, from the iFlight and GetFPV specification pages. To be
+    # confirmed on a scale when they arrive.
+    "2x motor, iFlight Helion 10 3110 900 Kv": 0.154,
+}
 
 
 def mass_total():

@@ -18,10 +18,10 @@
 
 | Qty | Item | Spec | Est. mass | Est. cost | Status |
 |---:|---|---|---:|---:|---|
-| 2 | Motor | <span class="tbd">not yet determined</span> | — | — | <span class="chip todo">Blocked on sizing</span> |
-| 2 | ESC | <span class="tbd">not yet determined</span> | — | — | <span class="chip todo">Blocked on sizing</span> |
-| 2 | Propeller | <span class="tbd">not yet determined</span> | — | — | <span class="chip todo">Blocked on sizing</span> |
-| 1 | Battery | <span class="tbd">not yet determined</span> | — | — | <span class="chip todo">Blocked on sizing</span> |
+| 2 | Motor | **iFlight Helion 10 3110, 900 Kv** | 154 g | — | <span class="chip done">Selected</span> |
+| 2 | ESC | 30–40 A continuous, 6S | — | — | <span class="chip active">Spec set</span> |
+| 2 | Propeller | 10 in, 2-blade, 5 mm bore, pitch 10×5 to 10×6 | — | — | <span class="chip active">Spec set</span> |
+| 1 | Battery | **6S LiPo**, capacity TBD | — | — | <span class="chip active">Chemistry set</span> |
 | 1 | Flight controller | <span class="tbd">not yet determined</span> | — | — | <span class="chip todo">Blocked on control allocation</span> |
 | 1 | GPS + compass | <span class="tbd">not yet determined</span> | — | — | <span class="chip todo">Not specified</span> |
 | 1 | RC receiver | ELRS, to match the existing transmitter | — | — | <span class="chip todo">Not specified</span> |
@@ -34,6 +34,36 @@
 | — | Filament | <span class="tbd">not yet determined</span> | — | — | <span class="chip todo">Blocked on structure</span> |
 
 **Budget ceiling: <span class="tbd">not yet determined</span>** (D12).
+
+## Selected components
+
+### Motor — iFlight Helion 10 3110, 900 Kv <span class="chip done">Closed, D6</span>
+
+| Specification | Value |
+|---|---|
+| Stator | 3110 (12N14P) |
+| Kv | 900 |
+| Mass | 77 g each, with wire |
+| Shaft | 5 mm, 15 mm protrusion |
+| Mounting | 19 × 19 mm, ⌀3 mm |
+| Peak current | 65.5 A |
+| Max power | 2144 W |
+| Max input voltage | 33.6 V (8S) |
+| Interphase resistance | 78 mΩ |
+| Bearings | NSK ⌀11 × ⌀5 × 5 mm |
+
+Predicted operating points on a 10 inch propeller at 6S — **project model, not manufacturer
+data**:
+
+| Point | Thrust per motor | RPM | Electrical power | Current |
+|---|---:|---:|---:|---:|
+| Cruise | 92 g at 17.1 m/s | ~6,200 | ~29 W | 1.3 A |
+| Hover | 865 g | ~7,400 | ~151 W | 6.8 A |
+| Max, T/W 1.8 | 1,557 g | ~9,900 | ~364 W | 16.4 A |
+| Continuous ceiling | ~2,330 g | ~12,100 | ~666 W | 30 A |
+
+See [D6](../program/decision-log.md#d6-motor) for the approval reasoning and the two
+verification conditions attached to it.
 
 ## Already owned — not to be purchased
 
