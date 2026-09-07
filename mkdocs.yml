@@ -56,6 +56,11 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
 
+extra:
+  # Drops the "Made with Material for MkDocs" line from the footer, leaving
+  # only the copyright. Supported by the theme, no template override needed.
+  generator: false
+
 extra_css:
   - stylesheets/extra.css
 

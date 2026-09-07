@@ -1,11 +1,45 @@
-/* Helvetica everywhere. Helvetica is not installed on Windows or most Linux
-   machines, so the fallbacks matter: Arial and Liberation Sans are both
-   metric-compatible with Helvetica, meaning identical character widths and
-   line breaks. The page will look the same shape on every machine even where
-   the true face is missing. `theme.font: false` in mkdocs.yml stops Material
-   fetching Roboto from Google Fonts and overriding this. */
+/* ---------------------------------------------------------------------------
+   Typeface — Helvetica, actually Helvetica-shaped everywhere.
+
+   Helvetica itself is a licensed Linotype/Monotype face and cannot be served
+   as a webfont. It also is not installed on Windows or on most Linux and
+   Android devices, so a plain "Helvetica, Arial" stack silently becomes Arial
+   for the large majority of visitors — same widths, visibly different letters
+   (Arial's angled terminals, the curved leg on R, the missing spur on G).
+
+   TeX Gyre Heros is a free Helvetica clone derived from URW Nimbus Sans,
+   released under the GUST Font License, which permits redistribution. It is
+   drawn to Helvetica's shapes and metrics, so the site reads the same on every
+   machine instead of only on a Mac. Four faces, subset to Latin plus the
+   symbols the engineering pages use, about 105 kB total.
+
+   Real Helvetica still wins where it exists: it is listed first, and Heros is
+   the fallback for everyone else. License text sits beside the files.
+   `theme.font: false` in mkdocs.yml stops Material fetching Roboto over the top.
+   --------------------------------------------------------------------------- */
+@font-face {
+  font-family: "TeX Gyre Heros";
+  src: url("../assets/fonts/texgyreheros-regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "TeX Gyre Heros";
+  src: url("../assets/fonts/texgyreheros-italic.woff2") format("woff2");
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "TeX Gyre Heros";
+  src: url("../assets/fonts/texgyreheros-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "TeX Gyre Heros";
+  src: url("../assets/fonts/texgyreheros-bolditalic.woff2") format("woff2");
+  font-weight: 700; font-style: italic; font-display: swap;
+}
+
 :root {
-  --md-text-font: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
+  --md-text-font: "Helvetica Neue", Helvetica, "TeX Gyre Heros", Arial, sans-serif;
   --md-code-font: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
