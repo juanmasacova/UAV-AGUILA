@@ -45,6 +45,7 @@ DECIDED = {
     "yaw_effector": "Differential nacelle tilt (see control-authority analysis)",
     "manufacture": "Every structural part printable on a Bambu Lab A1, 256 mm cube",
     "sourcing": "Components orderable from Amazon US, or already owned",
+    "propeller": "10 inch, two blades - see the propulsion study",
     "fpv": "No onboard video in Block 1",
     "donor_policy": "The existing 5-inch FPV quad is not disassembled",
 }
@@ -66,7 +67,7 @@ PARAMS = {
     "S":            None,   # wing area, m^2
     "AR":           None,   # aspect ratio
     "y_motor":      None,   # motor spanwise station, m
-    "prop_in":      None,   # propeller diameter, inches
+    "prop_in":      10,     # DECIDED: 10 inch (Propulsion Study 02)
     "n_rotors":     2,      # DECIDED: two motors
     "tilt_diff_deg": None,  # nacelle differential travel for yaw, deg
 

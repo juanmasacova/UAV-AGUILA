@@ -304,3 +304,7 @@
 /* 2px surface ring so the crossover marker reads on top of both lines */
 .md-typeset svg.viz .dot-ring { fill: var(--viz-surface); }
 .md-typeset svg.viz .dot      { fill: var(--viz-ink); }
+
+/* Zero baseline and dashed comparison series for the break-even chart */
+.md-typeset svg.viz .zero-rule { stroke: var(--viz-mute); stroke-width: 1.25; opacity: .9; }
+.md-typeset svg.viz .dashed    { stroke-dasharray: 6 4; }

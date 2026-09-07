@@ -61,7 +61,23 @@ every motor output many times a second.
 **Telemetry is not included in this deletion.** A live ground-station link is required for
 transition testing and for commanded abort.
 
-## D4 — Wing planform { #d4-wing-planform }
+## D4 — Propeller { #d4-propeller }
+
+<span class="chip done">Closed</span> · **10 inch diameter, two blades.** Pitch window 10×5 to 10×6,
+to be settled on the thrust stand.
+
+An 8 inch propeller costs **25 % more power** than a 10 inch for identical thrust, in hover and
+at full power alike. Power falls with the square root of disk area, so this is geometry and
+cannot be tuned away. An 8 inch would also have to turn about 15,500 RPM to reach the required
+thrust, which is near the ceiling of what an 8 inch propeller will do at all.
+
+Two blades rather than three: momentum theory contains no blade count, only disk area, so a
+three-blade of the same diameter has identical ideal power and loses about 6 % to extra profile
+drag. Three blades only win when diameter is constrained, and no such constraint exists yet.
+
+[Propulsion study →](../analysis/propulsion.md)
+
+## D5 — Wing planform { #d4-wing-planform }
 
 <span class="chip done">Closed</span> · **Straight, constant chord.** Sweep was raised and
 withdrawn.
@@ -80,11 +96,11 @@ inform it has actually been done.
 
 | # | Decision | Blocked by |
 |---|---|---|
-| D5 | Maximum takeoff mass | Component selection and mass budget |
+| D6 | Maximum takeoff mass | Component selection and mass budget |
 | D6 | Wing area, span, aspect ratio | MTOW and a chosen wing loading |
 | D7 | Hover thrust-to-weight requirement | Should be set *before* sizing, not after |
 | D8 | Airfoil | Operating Reynolds number, which needs the chord |
-| D9 | Motor, propeller and battery selection | Mass budget |
+| D9 | Motor and battery selection (propeller closed in D4) | Mass budget |
 | D10 | Wing tilt actuator type | Pivot load path |
 | D11 | Autopilot board | Control allocation requirements |
 | D12 | Budget ceiling | — |

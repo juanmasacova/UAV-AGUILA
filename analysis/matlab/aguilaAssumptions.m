@@ -49,7 +49,36 @@ function A = aguilaAssumptions()
     % --- Energy ----------------------------------------------------------
     A.eBattery     = 145.0;    % pack-level specific energy, LiPo        [Wh/kg]
     A.dod          = 0.80;     % usable depth of discharge               [-]
-    A.figureOfMerit= 0.65;     % rotor hover efficiency                  [-]
+    % Combined hover efficiency: ideal aerodynamic power divided by ELECTRICAL
+    % power. It bundles the propeller's figure of merit (~0.70) with the motor
+    % and ESC chain (~0.71).
+    %
+    % CALIBRATED, not assumed. Anchor point: a 9450 propeller (9.4 in) on a
+    % 2312-class motor at 4S produces about 700 g of thrust for about 110 W
+    % measured at the battery.
+    %
+    %   thrust      T = 0.700 * 9.81                    = 6.867 N
+    %   disk area   A = pi * (9.4 * 0.0254 / 2)^2       = 0.04477 m^2
+    %   ideal power P = T^1.5 / sqrt(2 * rho * A)
+    %                 = 17.995 / 0.33120                = 54.33 W
+    %   efficiency    = 54.33 / 110                     = 0.494
+    %
+    % Decomposed, that is a propeller figure of merit near 0.70 multiplied by a
+    % motor-and-ESC chain near 0.70.
+    %
+    % Study 01 originally used 0.65 - which is the PROPELLER number on its own.
+    % The electrical chain had been silently left out, making every hover power
+    % figure 32 % optimistic. See docs/notes/things-learned.md entry 03.
+    %
+    % ONE anchor point is thin. Replace this with your own thrust-stand
+    % measurement as soon as you have a motor in hand.
+    A.figureOfMerit= 0.494;    % ideal aero power / electrical power     [-]
+
+    % Static thrust coefficient, T = Ct * rho * n^2 * D^4, n in rev/s.
+    % Typical of multirotor propellers in the 8-11 inch range. Used only to
+    % estimate RPM, which in turn sets the motor Kv.
+    A.propCt       = 0.11;     %                                          [-]
+    A.rpmUnderLoad = 0.80;     % loaded RPM as a fraction of Kv * volts   [-]
     A.etaPropCruise= 0.62;     % cruise propulsive efficiency            [-]
     A.etaElectrical= 0.86;     % ESC and motor electrical efficiency     [-]
 

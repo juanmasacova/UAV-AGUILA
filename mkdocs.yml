@@ -103,6 +103,7 @@ nav:
   - Analysis:
       - analysis/index.md
       - Sizing: analysis/sizing.md
+      - Propulsion: analysis/propulsion.md
       - Configuration trade study: analysis/trade-study.md
       - Hover control authority: analysis/control-authority.md
       - Transition envelope: analysis/transition-envelope.md

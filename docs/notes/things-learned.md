@@ -93,4 +93,142 @@ through the same sizing loop and watching the curves cross.
 
 ---
 
+## 02 &mdash; Momentum theory does not care how many blades you have
+
+<p class="learned-meta">Learned during the propulsion study &middot; September 2026</p>
+
+### What I assumed
+
+That a three-blade propeller is roughly a more powerful two-blade. More blades, more
+blade area, more thrust — and presumably more power to drive them, in proportion. I
+expected the comparison to be a straight trade of thrust against watts.
+
+### What is actually true
+
+The equation for the power a rotor needs contains **no blade count at all**:
+
+$$P_{\text{ideal}} = \frac{T^{1.5}}{\sqrt{2\rho A_{\text{disk}}}}$$
+
+The only geometry in it is $A_{\text{disk}}$ — the area the propeller sweeps. A three-blade
+propeller of the same diameter sweeps *exactly the same disk*, so its ideal power is
+**identical**.
+
+That is not an approximation. Momentum theory treats the rotor as a disk that accelerates air
+downward, and it genuinely does not care how many blades did the accelerating.
+
+The differences that do exist are all second-order:
+
+| | 2-blade | 3-blade | Change |
+|---|---:|---:|---:|
+| Power at max thrust | 343 W | 365 W | +6 % |
+| RPM at max thrust | 9,900 | 8,370 | −15 % |
+| Hover efficiency | 6.1 g/W | 5.7 g/W | −6 % |
+
+The 6 % penalty is profile drag — more blade area dragging through the air lowers the figure
+of merit. And a third blade does **not** give 50 % more thrust: the blades interfere with one
+another, so the thrust coefficient rises by roughly 1.4×, not 1.5×. That is why the three-blade
+reaches the same thrust about 15 % slower, and why three-blades are quieter and smoother.
+
+### What it changed
+
+I had been thinking about propellers as *blades*. The right mental model is a **disk**, and the
+blades are just the mechanism that happens to sweep it. Once you see it that way, the design
+rule falls out immediately: **maximise disk area first, worry about everything else second.**
+
+Which also explains the other result from the same study — that a 10 inch propeller beats an
+8 inch by 25 % on power for identical thrust. Same principle, same equation.
+
+Three blades only win when diameter is the binding constraint. If geometry will not let you fit
+a larger two-blade, the extra blade buys thrust you could not otherwise have, and 6 % is a fair
+price. Given a free choice of diameter, a slightly larger two-blade wins every time.
+
+---
+
+## 03 &mdash; An assumption was wrong by a third, and the conclusion got stronger
+
+<p class="learned-meta">Learned while calibrating the propulsion model &middot; September 2026</p>
+
+### The mistake
+
+Sizing Study 01 needed a number for how efficiently a rotor turns electrical power into
+thrust. I used **0.65**.
+
+0.65 is a perfectly good number — for a *propeller*. It is a typical figure of merit: how close
+the blades get to the theoretical ideal. What it does not include is the **motor and the ESC**,
+which between them lose another 30 %.
+
+So the model was quietly assuming the electrical chain was free.
+
+### How it was caught
+
+Not by re-reading the assumption. By trying to use it for something else.
+
+The propulsion study needed to predict real motor power, which meant checking the model against
+a real motor. Anchoring it on a published test point — a 9450 propeller on a 2312-class motor
+at 4S, about 700 g of thrust for about 110 W — the arithmetic is:
+
+$$T = 0.700 \times 9.81 = 6.867\ \text{N}
+\qquad A = \pi\left(\tfrac{9.4 \times 0.0254}{2}\right)^{2} = 0.04477\ \text{m}^2$$
+
+$$P_{\text{ideal}} = \frac{6.867^{1.5}}{\sqrt{2 \times 1.225 \times 0.04477}}
+= \frac{17.995}{0.3312} = 54.33\ \text{W}$$
+
+$$\eta = \frac{54.33}{110} = \mathbf{0.494}$$
+
+Which decomposes almost exactly as 0.70 for the propeller × 0.70 for the motor and ESC. The
+missing factor was precisely the electrical chain I had left out.
+
+**Every hover power figure in Study 01 was 32 % optimistic.**
+
+### The part I did not expect
+
+Correcting it made the case for the wing **stronger**, and at a *shorter* range.
+
+<figure class="viz-fig" markdown="0">
+<svg class="viz" viewBox="0 0 760 360" width="100%" role="img" aria-label="Mass advantage of the winged aircraft over a pure multirotor, against mission radius. Both curves rise from negative to positive. With the old optimistic hover efficiency the curve crosses zero at 2.6 kilometres; with the corrected efficiency it crosses at 1.9 kilometres and rises far more steeply."><g><line class="grid" x1="64" y1="297.9" x2="636" y2="297.9"/><text class="tick" x="54" y="301.9" text-anchor="end">-0.5</text><line class="zero-rule" x1="64" y1="247.6" x2="636" y2="247.6"/><text class="tick" x="54" y="251.6" text-anchor="end">+0</text><line class="grid" x1="64" y1="197.2" x2="636" y2="197.2"/><text class="tick" x="54" y="201.2" text-anchor="end">+0.5</text><line class="grid" x1="64" y1="146.9" x2="636" y2="146.9"/><text class="tick" x="54" y="150.9" text-anchor="end">+1</text><line class="grid" x1="64" y1="96.5" x2="636" y2="96.5"/><text class="tick" x="54" y="100.5" text-anchor="end">+1.5</text><line class="grid" x1="64" y1="46.1" x2="636" y2="46.1"/><text class="tick" x="54" y="50.1" text-anchor="end">+2</text><text class="tick" x="64.0" y="328" text-anchor="middle">0</text><text class="tick" x="168.0" y="328" text-anchor="middle">1</text><text class="tick" x="272.0" y="328" text-anchor="middle">2</text><text class="tick" x="376.0" y="328" text-anchor="middle">3</text><text class="tick" x="480.0" y="328" text-anchor="middle">4</text><text class="tick" x="584.0" y="328" text-anchor="middle">5</text></g><line class="cross-rule" x1="336.7" y1="247.6" x2="336.7" y2="30.0"/><text class="cross-label" x="343.7" y="39">was 2.6 km</text><circle class="dot-ring" cx="336.7" cy="247.6" r="7"/><circle class="dot" cx="336.7" cy="247.6" r="4.5"/><line class="cross-rule" x1="260.1" y1="247.6" x2="260.1" y2="47.0"/><text class="cross-label" x="267.1" y="56">now 1.9 km</text><circle class="dot-ring" cx="260.1" cy="247.6" r="7"/><circle class="dot" cx="260.1" cy="247.6" r="4.5"/><path class="s2 dashed" d="M 90.0 282.8 L 103.0 281.5 L 116.0 280.1 L 129.0 278.7 L 142.0 277.3 L 155.0 275.7 L 168.0 274.2 L 181.0 272.6 L 194.0 270.9 L 207.0 269.1 L 220.0 267.3 L 233.0 265.4 L 246.0 263.5 L 259.0 261.5 L 272.0 259.4 L 285.0 257.2 L 298.0 254.9 L 311.0 252.5 L 324.0 250.1 L 337.0 247.5 L 350.0 244.8 L 363.0 242.0 L 376.0 239.1 L 389.0 236.1 L 402.0 232.9 L 415.0 229.6 L 428.0 226.1 L 441.0 222.4 L 454.0 218.6 L 467.0 214.6 L 480.0 210.4 L 493.0 205.9 L 506.0 201.3 L 519.0 196.4 L 532.0 191.2 L 545.0 185.7 L 558.0 180.0 L 571.0 173.8 L 584.0 167.4 L 597.0 160.5 L 610.0 153.2 L 623.0 145.4 L 636.0 137.1" fill="none"/><path class="s1" d="M 90.0 282.2 L 103.0 280.3 L 116.0 278.2 L 129.0 276.1 L 142.0 273.8 L 155.0 271.5 L 168.0 269.0 L 181.0 266.4 L 194.0 263.7 L 207.0 260.8 L 220.0 257.8 L 233.0 254.7 L 246.0 251.4 L 259.0 247.9 L 272.0 244.2 L 285.0 240.3 L 298.0 236.2 L 311.0 231.8 L 324.0 227.2 L 337.0 222.3 L 350.0 217.1 L 363.0 211.5 L 376.0 205.6 L 389.0 199.3 L 402.0 192.6 L 415.0 185.3 L 428.0 177.5 L 441.0 169.2 L 454.0 160.1 L 467.0 150.4 L 480.0 139.7 L 493.0 128.2 L 506.0 115.6 L 519.0 101.7 L 532.0 86.5 L 545.0 69.7 L 558.0 51.0 L 571.0 30.1" fill="none"/><text class="lab s1t" x="646" y="95.5">Corrected</text><text class="labsub" x="646" y="110.5">eta 0.494</text><text class="lab s2t" x="646" y="201.2">Original</text><text class="labsub" x="646" y="216.2">eta 0.65</text><text class="axis" x="64" y="352">mission radius, one way [km]</text><text class="axis" x="12" y="16">mass saved by having a wing [kg]</text></svg>
+<figcaption>How much mass the wing saves compared with a pure multirotor, at each mission
+radius. Above the zero line the wing is worth carrying. Correcting the hover efficiency moved
+the crossing point from 2.6 km to 1.9 km and made the curve rise far more steeply.</figcaption>
+</figure>
+
+The reason is structural, and obvious once seen:
+
+**The multirotor hovers for the entire mission. The winged aircraft hovers for about 60 seconds
+and cruises the rest.**
+
+So making hovering 32 % more expensive raises the multirotor's *entire* energy bill by 32 %,
+while raising only the small hover slice of the wing's. At 4 km the winged aircraft spends
+38 % of its energy hovering and 62 % cruising — so it absorbs about a third of the penalty the
+multirotor takes.
+
+Then the battery spiral amplifies it: more energy means a bigger battery, which is more mass to
+hover, which needs more energy again. That loop is far tighter for an aircraft that hovers the
+whole way.
+
+| | Original (0.65) | Corrected (0.494) |
+|---|---:|---:|
+| Winged aircraft at 4 km | 1.70 kg | 1.73 kg |
+| Pure multirotor at 4 km | 2.07 kg | 2.80 kg |
+| Mass the wing saves | 0.37 kg | **1.07 kg** |
+| Break-even radius | 2.6 km | **1.9 km** |
+
+### The general lesson
+
+Two things, and the second matters more.
+
+**Be precise about what an efficiency covers.** "Figure of merit" and "how much electrical power
+this costs" are different quantities that both get written as a number between 0 and 1. Mixing
+them up is silent — nothing errors, the model just returns confident wrong answers.
+
+**A conclusion that survives a wrong assumption was never resting on it.** Study 01 included a
+sensitivity analysis that scored hover efficiency at a 3 % swing — meaning the answer barely
+depended on it. That prediction turned out to be exactly right: the assumption was wrong by a
+third, and the candidate ranking did not move at all.
+
+I now trust that sensitivity table more than I trust any individual number above it. It is the
+part of the study that told me *which* numbers were worth being careful about — and the can
+mass, which it scored at 28 %, is still the one I need to go and weigh.
+
+---
+
 <p class="learned-meta">More entries as the project produces them.</p>
