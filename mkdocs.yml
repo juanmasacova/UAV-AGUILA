@@ -3,10 +3,10 @@ site_description: >-
   Design, analysis and manufacture of a 3D-printed tilt-wing VTOL UAV with
   autonomous payload delivery. A full engineering cycle, documented as it happens.
 site_author: Juan Martínez
-site_url: https://juanmasacova.github.io/AGUILA-UAV/
+site_url: https://juanmasacova.github.io/UAV-AGUILA/
 
-repo_url: https://github.com/juanmasacova/AGUILA-UAV
-repo_name: AGUILA-UAV
+repo_url: https://github.com/juanmasacova/UAV-AGUILA
+repo_name: UAV-AGUILA
 edit_uri: edit/main/docs/
 
 copyright: © Juan Martínez
@@ -20,7 +20,9 @@ theme:
   # a little faster and works offline.
   font: false
   icon:
-    logo: material/airplane
+    # No logo icon. Material always renders *some* logo mark, so the header
+    # button is hidden in docs/stylesheets/extra.css; the site name carries
+    # the header on its own.
     repo: fontawesome/brands/github
   features:
     - navigation.instant

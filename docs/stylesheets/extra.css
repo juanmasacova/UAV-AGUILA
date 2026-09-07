@@ -346,3 +346,11 @@
   .md-content__button[rel="edit"] { border: 0; padding: 0; }
   .md-content__button[rel="edit"]::after { display: none; }
 }
+
+/* ------------------------------------------------------------------ */
+/* Header logo                                                         */
+/* Material renders a default logo mark even when none is configured,  */
+/* so hide the button outright and let the site name stand alone.      */
+/* Keep the left padding it was providing.                             */
+.md-header__button.md-logo { display: none; }
+.md-header__title { margin-left: .6rem; }

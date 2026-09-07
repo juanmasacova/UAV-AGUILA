@@ -71,7 +71,7 @@ gentle-stall airfoil, and a slow low-airspeed transition.
 ## How this site works
 
 Every number published here is generated from a single design state in
-[`analysis/aguila.py`](https://github.com/juanmasacova/AGUILA-UAV/blob/main/analysis/aguila.py).
+[`analysis/aguila.py`](https://github.com/juanmasacova/UAV-AGUILA/blob/main/analysis/aguila.py).
 A parameter that has not been decided is `None`, and `None` renders as *not yet determined* — never
 as a plausible-looking placeholder.
 

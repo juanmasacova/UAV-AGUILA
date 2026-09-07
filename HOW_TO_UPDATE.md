@@ -232,7 +232,7 @@ mkdocs build --strict
 | See my changes before publishing | `mkdocs serve`, open http://127.0.0.1:8000 |
 | Regenerate the numbers and progress bar | `python analysis\make_tables.py` |
 | Publish | GitHub Desktop → Commit → Push origin |
-| Check the build | github.com/juanmasacova/AGUILA-UAV → Actions tab |
-| View the site | juanmasacova.github.io/AGUILA-UAV |
+| Check the build | github.com/juanmasacova/UAV-AGUILA → Actions tab |
+| View the site | juanmasacova.github.io/UAV-AGUILA |
 | Keep something private | Put it in `internal\` |
 | Undo something | Ask before running git commands — recovery is easy, but the commands that look right are often the destructive ones |

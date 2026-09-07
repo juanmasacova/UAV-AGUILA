@@ -4,7 +4,7 @@ One-time only. About 20 minutes, most of it waiting for downloads. After this, p
 update is two clicks.
 
 Everything below is already filled in with your username (`juanmasacova`) and repository name
-(`AGUILA-UAV`). There is nothing to find-and-replace.
+(`UAV-AGUILA`). There is nothing to find-and-replace.
 
 ---
 
@@ -15,8 +15,8 @@ Three things, and it helps to know which is which:
 | Thing | What it is | Where it lives |
 |---|---|---|
 | **The folder** | The real files, on your computer | `Escritorio\AGUILA` |
-| **The repository** | A copy on GitHub, with the full history of every change | github.com/juanmasacova/AGUILA-UAV |
-| **The site** | A website built automatically from the folder | juanmasacova.github.io/AGUILA-UAV |
+| **The repository** | A copy on GitHub, with the full history of every change | github.com/juanmasacova/UAV-AGUILA |
+| **The site** | A website built automatically from the folder | juanmasacova.github.io/UAV-AGUILA |
 
 You work in the folder. GitHub Desktop copies your changes up to the repository. GitHub then
 builds the site from them, by itself, every time. You never touch the site directly.
@@ -71,16 +71,16 @@ AGUILA\
 ### 2a. Confirm the address
 
 You named it "AGUILA UAV" with a space. GitHub does not allow spaces in addresses, so it silently
-converted it — almost certainly to `AGUILA-UAV`.
+converted it — almost certainly to `UAV-AGUILA`.
 
 **Verify before going further.** Open your repository on github.com and look at the address bar.
 It should read:
 
 ```
-https://github.com/juanmasacova/AGUILA-UAV
+https://github.com/juanmasacova/UAV-AGUILA
 ```
 
-If the last part is anything other than `AGUILA-UAV` — say `AGUILA_UAV` or `aguila-uav` — tell me
+If the last part is anything other than `UAV-AGUILA` — say `AGUILA_UAV` or `aguila-uav` — tell me
 and I will regenerate the files. Every link in the project points at this address, so it needs to
 be right. (Nothing breaks if it is wrong; the site still builds. The links in the page header just
 go nowhere.)
@@ -91,7 +91,7 @@ This feels backwards, so here is the reason: GitHub Desktop's **Publish** button
 repository for you, and refuses if one already exists with that name. Your repository has nothing
 in it, so nothing is lost by deleting it — you are removing an empty container, not any work.
 
-1. Go to **github.com/juanmasacova/AGUILA-UAV**
+1. Go to **github.com/juanmasacova/UAV-AGUILA**
 2. **Settings** — the tab along the top of the repository, not your account settings
 3. Scroll to the very bottom, **Danger Zone** → **Delete this repository**
 4. Type the name when prompted to confirm
@@ -105,7 +105,7 @@ You will recreate it under the same name in Step 5, with all your files in it.
     2. Commit, as in Step 5 step 1–2 — but **do not** click Publish
     3. Menu bar: **Repository → Repository settings…**
     4. In the **Remote** section, set the URL to
-       `https://github.com/juanmasacova/AGUILA-UAV.git` and Save
+       `https://github.com/juanmasacova/UAV-AGUILA.git` and Save
     5. Click **Push origin** at the top
 
     If there is no Remote section in that dialog, your version of GitHub Desktop does not offer
@@ -127,7 +127,7 @@ That sign-in is the only authentication you'll ever set up. GitHub Desktop remem
 2. **Choose…** and select `C:\Users\juanm\OneDrive\Escritorio\AGUILA`
 3. It will say *"This directory does not appear to be a Git repository."* — this is expected.
    Click the blue link that says **create a repository**
-4. A dialog opens with the path already filled in. Change **Name** to `AGUILA-UAV`
+4. A dialog opens with the path already filled in. Change **Name** to `UAV-AGUILA`
 5. Leave everything else alone — do **not** tick "Initialize with a README", and leave Git ignore
    and License as None. You already have all three
 6. Click **Create repository**
@@ -149,13 +149,13 @@ staged and ready.
 2. Click **Commit to main**
 3. Top of the window, click **Publish repository**
 4. In the dialog:
-   - **Name:** `AGUILA-UAV`
+   - **Name:** `UAV-AGUILA`
    - **Description:** optional
    - **Keep this code private** — ⚠️ **UNTICK THIS.** It's ticked by default. GitHub Pages is
      free only on public repositories, and a private portfolio isn't a portfolio
 5. Click **Publish repository**
 
-Your code is now on GitHub. Go look at github.com/juanmasacova/AGUILA-UAV — it should all be there.
+Your code is now on GitHub. Go look at github.com/juanmasacova/UAV-AGUILA — it should all be there.
 
 ---
 
@@ -163,7 +163,7 @@ Your code is now on GitHub. Go look at github.com/juanmasacova/AGUILA-UAV — it
 
 The site doesn't build until you tell GitHub to allow it. One time only.
 
-1. **github.com/juanmasacova/AGUILA-UAV** → **Settings** tab
+1. **github.com/juanmasacova/UAV-AGUILA** → **Settings** tab
 2. Left sidebar → **Pages**
 3. Under **Build and deployment → Source**, change **Deploy from a branch** to
    **GitHub Actions**
@@ -175,7 +175,7 @@ Now trigger a build:
 2. **Run workflow** button on the right → **Run workflow**
 3. Wait about 90 seconds. A yellow dot means running, green tick means done
 
-Your site is live at **[juanmasacova.github.io/AGUILA-UAV](https://juanmasacova.github.io/AGUILA-UAV/)**.
+Your site is live at **[juanmasacova.github.io/UAV-AGUILA](https://juanmasacova.github.io/UAV-AGUILA/)**.
 
 First deploy sometimes takes a couple of extra minutes for DNS. If you get a 404, wait three
 minutes and reload before assuming anything is broken.

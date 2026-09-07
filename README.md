@@ -6,7 +6,7 @@ it, and return.
 One person, one full engineering cycle. This repository is the working record — and it fills in
 as the work is done, not before.
 
-**📖 [Documentation site](https://juanmasacova.github.io/AGUILA-UAV/)**
+**📖 [Documentation site](https://juanmasacova.github.io/UAV-AGUILA/)**
 
 *Setting this up for the first time? See [START_HERE.md](START_HERE.md).*
 
@@ -53,13 +53,13 @@ mkdocs serve                      # preview at http://127.0.0.1:8000
 Two findings came out of the configuration work. Both are **structural** — they follow from the
 shape of the aircraft rather than its dimensions, so they hold whatever it turns out to weigh.
 
-**[A rigid two-motor tilt-wing has no yaw control.](https://juanmasacova.github.io/AGUILA-UAV/analysis/control-authority/)**
+**[A rigid two-motor tilt-wing has no yaw control.](https://juanmasacova.github.io/UAV-AGUILA/analysis/control-authority/)**
 Thrust, roll and pitch come free — collective wing tilt *is* the pitch effector. Yaw does not
 exist. The only remaining effector is differential propeller torque, which is weak and fights the
 differential throttle needed for roll. This is a missing control axis, not a tuning problem, and
 it is why the aircraft carries independently tilting nacelles.
 
-**[The transition passes through a partly stalled wing.](https://juanmasacova.github.io/AGUILA-UAV/analysis/transition-envelope/)**
+**[The transition passes through a partly stalled wing.](https://juanmasacova.github.io/UAV-AGUILA/analysis/transition-envelope/)**
 While the wing rotates, its angle of attack is essentially the tilt angle — far past stall for
 most of the rotation. Slipstream rescues the immersed part; the rest separates. How much is
 rescued depends on rotor size and mass, neither chosen — but the mechanism already demands
