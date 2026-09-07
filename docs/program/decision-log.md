@@ -108,7 +108,8 @@ while the current needed for a given torque falls as $K_v$. Copper loss $I^2R$ i
 
 Kv only decides what *voltage* is needed to reach a given RPM. What sets efficiency is the
 motor constant $K_m = K_t/\sqrt{R}$, which is a property of the motor's **size**, not its
-winding.
+winding. Written up at greater length in
+[Kv is a gear ratio, not an efficiency rating](../blog/posts/2026-09-08-kv-is-a-gear-ratio.md).
 
 ### Correction 2 — "cruise at 1.4 % of rated power" was overstated
 
