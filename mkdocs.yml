@@ -14,6 +14,11 @@ copyright: © Juan Martínez
 theme:
   name: material
   language: en
+  # Do not load Roboto from Google Fonts. The typeface is set in
+  # docs/stylesheets/extra.css instead (Helvetica, with metric-compatible
+  # fallbacks). Side benefit: no external font request, so the site loads
+  # a little faster and works offline.
+  font: false
   icon:
     logo: material/airplane
     repo: fontawesome/brands/github

@@ -1,5 +1,12 @@
+/* Helvetica everywhere. Helvetica is not installed on Windows or most Linux
+   machines, so the fallbacks matter: Arial and Liberation Sans are both
+   metric-compatible with Helvetica, meaning identical character widths and
+   line breaks. The page will look the same shape on every machine even where
+   the true face is missing. `theme.font: false` in mkdocs.yml stops Material
+   fetching Roboto from Google Fonts and overriding this. */
 :root {
-  --md-text-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --md-text-font: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
+  --md-code-font: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
 /* Tables: technical documents live in them, so give them room to breathe. */
@@ -308,3 +315,34 @@
 /* Zero baseline and dashed comparison series for the break-even chart */
 .md-typeset svg.viz .zero-rule { stroke: var(--viz-mute); stroke-width: 1.25; opacity: .9; }
 .md-typeset svg.viz .dashed    { stroke-dasharray: 6 4; }
+
+/* ------------------------------------------------------------------ */
+/* Edit button                                                         */
+/* Material renders a bare pencil icon top-right of every page, linking */
+/* to GitHub's web editor. On its own it is easy to miss, so label it.  */
+/* rel="edit" is set by the theme and is a stable hook.                 */
+.md-content__button[rel="edit"] {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .1rem .45rem .1rem .35rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 1rem;
+  color: var(--md-default-fg-color--light);
+  transition: color 125ms, border-color 125ms;
+}
+.md-content__button[rel="edit"]::after {
+  content: "Edit";
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+.md-content__button[rel="edit"]:hover {
+  color: var(--md-accent-fg-color);
+  border-color: var(--md-accent-fg-color);
+}
+/* Narrow screens: the icon alone, as before. */
+@media screen and (max-width: 44.9375em) {
+  .md-content__button[rel="edit"] { border: 0; padding: 0; }
+  .md-content__button[rel="edit"]::after { display: none; }
+}

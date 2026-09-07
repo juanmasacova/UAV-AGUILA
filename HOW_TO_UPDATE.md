@@ -33,6 +33,43 @@ work, so it's worth ten seconds.
 
 ---
 
+## Editing text straight from the website
+
+Every page has an **Edit** button at the top right. Click it and GitHub opens that page's
+Markdown in a text editor in your browser. Change the wording, scroll down, click
+**Commit changes**. The site rebuilds in about 90 seconds and the new text is live.
+
+No install, no GitHub Desktop, nothing to pull afterwards — the change is made directly on
+`main`. Next time you open GitHub Desktop on your PC, hit **Fetch origin** so your local
+folder picks the edit up. If you forget and edit the same file locally, GitHub Desktop will
+tell you and you resolve it then; nothing is lost either way.
+
+This is the right tool for **prose**: rewriting a paragraph so it sounds like you, fixing a
+sentence, adding a note. Use it freely.
+
+### The one thing not to edit this way
+
+Do not touch the lines that look like this:
+
+```
+--8<-- "includes/design-point.md"
+```
+
+That pulls in a generated table. The tables themselves live in `includes\` and are written by
+`analysis\make_tables.py` from `analysis\aguila.py` — every file in there starts with a
+"do not edit by hand" line. Edit one and the build goes red, because CI regenerates them and
+compares. Numbers change in `aguila.py`, never in the browser.
+
+Everything else on a page is yours.
+
+### If you want the full editor
+
+Press <kbd>.</kbd> (the period key) while looking at the repository on GitHub. It opens a
+complete VS Code in the browser, whole repo, file tree and search. Useful for a bigger edit
+across several pages. Same commit-and-push at the end.
+
+---
+
 ## Where each kind of update goes
 
 | What happened | Edit this | Also do this |
