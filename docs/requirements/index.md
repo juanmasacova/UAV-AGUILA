@@ -1,5 +1,9 @@
 # Requirements register
 
+
+!!! info "How this page fills in"
+    Mission and constraint requirements are set. Derived thresholds fill in as each study closes — move a row from **Pending** to **Established** the moment a study gives it a number, and put that number in `analysis/aguila.py` at the same time.
+
 Verification methods: **A**nalysis · **I**nspection · **D**emonstration · **T**est.
 
 ## Mission requirements

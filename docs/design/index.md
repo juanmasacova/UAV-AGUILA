@@ -1,5 +1,9 @@
 # Design
 
+
+!!! info "How this page fills in"
+    Each subsystem row below gets replaced with real geometry as it is designed. The order is set by what gates what: the wing pivot first, then mass and size, then aerodynamics, then everything else.
+
 !!! warning "Configuration only"
     The configuration is chosen. **The aircraft is not designed.** No dimension, mass, structure
     or component on this page is settled, and none is stated as if it were.

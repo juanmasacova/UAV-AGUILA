@@ -139,7 +139,7 @@ propellers exist, though both are far too complex for a first build.
 Building this model required calibrating hover efficiency against published motor test data.
 Study 01 had assumed a combined figure of 0.65; the calibrated value is **0.494** — Study 01 was
 optimistic by 32 %. The full derivation, and the reason the correction made the wing *more*
-worth carrying, is written up as [Things learned 03](../notes/things-learned.md).
+worth carrying, is written up as [Things learned 03](../blog/index.md).
 
 The correction was applied and every conclusion re-checked:
 

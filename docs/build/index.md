@@ -2,6 +2,10 @@
 
 <span class="chip todo">Not started</span>
 
+
+!!! info "How this page fills in"
+    Fills in from the manufacture stage. Every printed part gets weighed and recorded the day it comes off the bed, not batched at the end.
+
 Nothing is designed yet, so nothing is built. This section fills in from the manufacture stage.
 
 ## What will be recorded here

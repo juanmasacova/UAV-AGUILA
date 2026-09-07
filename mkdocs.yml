@@ -83,35 +83,48 @@ extra_javascript:
 
 plugins:
   - search
+  - blog:
+      blog_dir: blog
+      blog_toc: true
+      post_date_format: long
+      post_url_format: "{slug}"
+      post_excerpt: optional
+      archive: false
+      categories_toc: true
 
+# Three tabs. Overview is the front door, Program holds the whole engineering
+# record in one place, Blog is the running commentary.
 nav:
   - Overview: index.md
+
   - Program:
       - program/index.md
-      - Decision log: program/decision-log.md
-      - Stages: program/status.md
-      - Studies (not adopted):
+      - Where things stand:
+          - Stages: program/status.md
+          - Decision log: program/decision-log.md
+      - Requirements:
+          - requirements/index.md
+          - Regulatory: requirements/regulatory.md
+      - Design:
+          - design/index.md
+          - Wing pivot: design/wing-pivot.md
+      - Analysis:
+          - analysis/index.md
+          - Sizing: analysis/sizing.md
+          - Propulsion: analysis/propulsion.md
+          - Configuration trade study: analysis/trade-study.md
+          - Hover control authority: analysis/control-authority.md
+          - Transition envelope: analysis/transition-envelope.md
+      - Build:
+          - build/index.md
+          - Print log: build/print-log.md
+      - Test:
+          - test/index.md
+          - Flight log: test/flight-log.md
+      - Procurement:
+          - procurement/index.md
+      - Superseded studies:
           - Tilt-wing study: program/studies/study-02-tiltwing.md
           - Quadplane study: program/studies/study-01-quadplane.md
-  - Things learned: notes/things-learned.md
-  - Requirements:
-      - requirements/index.md
-      - Regulatory: requirements/regulatory.md
-  - Design:
-      - design/index.md
-      - Wing pivot: design/wing-pivot.md
-  - Analysis:
-      - analysis/index.md
-      - Sizing: analysis/sizing.md
-      - Propulsion: analysis/propulsion.md
-      - Configuration trade study: analysis/trade-study.md
-      - Hover control authority: analysis/control-authority.md
-      - Transition envelope: analysis/transition-envelope.md
-  - Build:
-      - build/index.md
-      - Print log: build/print-log.md
-  - Test:
-      - test/index.md
-      - Flight log: test/flight-log.md
-  - Procurement:
-      - procurement/index.md
+
+  - Blog: blog/index.md

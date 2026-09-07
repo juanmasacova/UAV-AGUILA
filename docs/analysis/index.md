@@ -1,5 +1,9 @@
 # Analysis
 
+
+!!! info "How this page fills in"
+    One page per study. A new study means a new page here, a link from the decision it informed, and a row in the decision log.
+
 Every figure on these pages is generated from the design state in `analysis/aguila.py`. A
 parameter that has not been decided renders as *not yet determined*, never as a placeholder.
 

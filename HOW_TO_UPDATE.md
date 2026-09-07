@@ -47,7 +47,7 @@ work, so it's worth ten seconds.
 | Ordered parts | `docs\procurement\index.md` | |
 | Confirmed a regulatory item | `docs\requirements\regulatory.md` | |
 | Took a photo | Drop it in `docs\assets\` | Reference it from the relevant page |
-| Learned something that changed your mind | Add an entry to `docs\notes\things-learned.md` | Follow the format of entry 01: what you assumed, what is true, why, what it changed |
+| Learned something that changed your mind | Add a post in `docs\blog\posts\` | See "Writing a blog post" below |
 | Something you don't want public | Put it in `internal\` | That folder is never uploaded |
 
 ---
@@ -103,6 +103,37 @@ Re-run `make_tables.py`, commit, push. The bar fills.
 
 Flip a stage to `True` only when its work is genuinely finished. A progress bar that always reads
 full tells a reader nothing, and the honesty of this one is most of its value.
+
+---
+
+## Writing a blog post
+
+Posts live in `docs\blog\posts\`, one file each, named `YYYY-MM-DD-slug.md`. They need a
+small header:
+
+```markdown
+---
+date: 2026-09-07
+categories: [Propulsion]
+---
+
+# A short, specific title
+
+One or two paragraphs that stand on their own — this is what shows on the blog index.
+
+<!-- more -->
+
+Everything after the fold is the rest of the post.
+```
+
+That is all. The blog index, the dates, the categories and the reading time are generated;
+nothing needs adding to `mkdocs.yml`.
+
+Keep them short and in your own voice. The pattern that works: **what I assumed → what is
+actually true → what it changed.** Charts and equations go after the `<!-- more -->` fold, so
+the index stays readable.
+
+Categories used so far: `Sizing`, `Propulsion`, `Method`. Add new ones freely.
 
 ---
 

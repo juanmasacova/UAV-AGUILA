@@ -2,6 +2,10 @@
 
 <span class="chip todo">Not started</span>
 
+
+!!! info "How this page fills in"
+    Each row fills in when that component is chosen and again when it arrives. Nothing is ordered before the mass budget closes.
+
 !!! note "Deliberately empty"
     No component has been selected. Choosing hardware before the mass budget exists is how a
     design spirals — you pick a motor, discover the aircraft is heavier than the motor supports,

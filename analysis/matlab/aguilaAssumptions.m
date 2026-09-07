@@ -68,7 +68,7 @@ function A = aguilaAssumptions()
     %
     % Study 01 originally used 0.65 - which is the PROPELLER number on its own.
     % The electrical chain had been silently left out, making every hover power
-    % figure 32 % optimistic. See docs/notes/things-learned.md entry 03.
+    % figure 32 % optimistic. See the blog post "I was wrong by a third".
     %
     % ONE anchor point is thin. Replace this with your own thrust-stand
     % measurement as soon as you have a motor in hand.

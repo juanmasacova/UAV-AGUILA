@@ -2,6 +2,10 @@
 
 <span class="chip todo">Not started</span>
 
+
+!!! info "How this page fills in"
+    Fills in from the first bench test onward. Failures get logged with the same care as successes — a test programme with no recorded failures has not been run honestly.
+
 Nothing built, nothing flown. This section fills in from the component-selection stage onward.
 
 ## Why the test programme is unusual
